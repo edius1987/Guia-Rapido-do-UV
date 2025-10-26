@@ -1,0 +1,161 @@
+\documentclass[a4paper,9pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage[margin=1.2cm]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{listings}
+
+% Configurações de espaçamento
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.2em}
+\setlist{nosep, leftmargin=*, itemsep=0pt}
+
+% Configurações de títulos
+\titleformat{\section}{\normalsize\bfseries\color{blue!70!black}}{\thesection}{0.5em}{}
+\titlespacing*{\section}{0pt}{0.4em}{0.2em}
+
+\titleformat{\subsection}{\small\bfseries\color{blue!50!black}}{\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{0.3em}{0.15em}
+
+\begin{document}
+
+\begin{center}
+    {\Large\bfseries Guia Rápido do uv} \\[0.2em]
+    {\footnotesize Versão 0.1.0 -- Edius Ferreira}
+    {\footnotesize Github @edius1987}
+\date{Outubro 2025}
+
+\end{center}
+
+\vspace{-0.4em}
+
+\begin{multicols}{2}
+
+\subsection*{Instalação }
+\begin{tcolorbox}[colback=gray!10, colframe=gray!50, boxrule=0.5pt, arc=2pt, left=2pt, right=2pt, top=2pt, bottom=2pt]
+\texttt{\footnotesize curl -LsSf https://astral.sh/uv/install.sh | sh}
+\end{tcolorbox}
+
+\subsection*{Início Rápido}
+\begin{tcolorbox}[colback=blue!5, colframe=blue!30, boxrule=0.5pt, arc=2pt, left=2pt, right=2pt, top=2pt, bottom=2pt]
+{\footnotesize
+\texttt{uv init myproj} \\
+\texttt{uv add django requests "pandas>=2.3"} \\
+\texttt{uv tree} \\
+\texttt{uv run main.py}
+}
+\end{tcolorbox}
+
+\subsection*{Criando projetos}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv init} -- Inicializa no diretório atual
+    \item \texttt{uv init myproj} -- Inicializa projeto \texttt{myproj}
+    \item \texttt{uv init --app --package} -- App empacotável
+    \item \texttt{uv init --lib --package} -- Biblioteca empacotável
+    \item \texttt{uv init --python 3.X} -- Usa Python 3.X\textsuperscript{1}
+\end{itemize}
+
+\subsection*{Dependências}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv add requests} -- Adiciona \texttt{requests}
+    \item \texttt{uv add A B C} -- Adiciona múltiplas dependências
+    \item \texttt{uv add "pandas>=2.3"} -- Com especificação de versão
+    \item \texttt{uv add -r requirements.txt} -- Do arquivo
+    \item \texttt{uv add --dev pytest} -- Dependência de desenvolvimento
+    \item \texttt{uv run pytest} -- Executa pytest do projeto
+    \item \texttt{uv remove django} -- Remove dependência
+    \item \texttt{uv tree} -- Árvore de dependências
+    \item \texttt{uv lock --upgrade} -- Atualiza versões
+\end{itemize}
+
+\subsection*{Ciclo de vida}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv build} -- Constrói projeto empacotável
+    \item \texttt{uv publish} -- Publica no PyPI
+    \item \texttt{uv version} -- Verifica versão do projeto
+    \item \texttt{uv version --bump major} -- Versão principal
+    \item \texttt{uv version --bump minor --bump beta} -- Beta
+    \item \texttt{uv version --bump rc} -- Release candidate
+    \item \texttt{uv version --bump stable} -- Versão estável
+\end{itemize}
+
+\subsection*{Ferramentas}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv tool run ruff} -- Executa em ambiente isolado
+    \item \texttt{uvx ruff} -- Alias para \texttt{uv tool run}
+    \item \texttt{uv tool install ruff} -- Instala globalmente
+    \item \texttt{uv tool install --with dep} -- Com extras
+    \item \texttt{uv tool list} -- Lista ferramentas instaladas
+    \item \texttt{uv tool upgrade ruff} -- Atualiza ferramenta
+    \item \texttt{uv tool upgrade --all} -- Atualiza todas
+    \item \texttt{uv tool uninstall ruff} -- Desinstala
+    \item \texttt{uv tool install -e .}\textsuperscript{2} -- Modo editável
+\end{itemize}
+
+\subsection*{Scripts}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv init --script myscript.py} -- Inicializa script
+    \item \texttt{uv init --script --python 3.X} -- Fixa versão
+    \item \texttt{uv add click --script myscript.py} -- Adiciona dep
+    \item \texttt{uv remove click --script myscript.py} -- Remove
+    \item \texttt{uv run myscript.py} -- Executa (sem ativar venv)
+    \item \texttt{uv run --python 3.X myscript.py} -- Versão específica
+    \item \texttt{uv run --with click myscript.py} -- Com dependência
+\end{itemize}
+
+{\footnotesize \textbf{Dica:} Shebang \texttt{\#!/usr/bin/env -S uv run} permite \texttt{./myscript.py}}
+
+\subsection*{Versões do Python}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv python list} -- Lista versões disponíveis
+    \item \texttt{uv python install 3.12} -- Instala Python 3.12
+    \item \texttt{uv python uninstall 3.X} -- Desinstala
+    \item \texttt{uv run python} -- Executa Python padrão
+    \item \texttt{uv run --python 3.X python} -- Versão específica
+    \item \texttt{uv python upgrade} -- Atualiza versões
+    \item \texttt{uv python pin 3.12} -- Fixa versão no projeto
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40, boxrule=0.5pt, arc=2pt, left=2pt, right=2pt, top=2pt, bottom=2pt]
+{\footnotesize \textbf{Exemplo completo:}\\
+\texttt{uv init myproject} \\
+\texttt{uv python pin 3.12} \\
+\texttt{uv add django} \\
+\texttt{uv run main.py} \\
+\textit{Instalará automaticamente py3.12 e django}
+}
+\end{tcolorbox}
+
+\subsection*{Para veteranos}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv venv path/to/.venv} -- Cria ambiente virtual
+    \item \texttt{uv pip} -- Interface do pip ⚡
+\end{itemize}
+
+\subsection*{Comandos diversos}
+\begin{itemize}[leftmargin=0.3cm]
+    \item \texttt{uv format} -- Formata código com Ruff
+    \item \texttt{uv help cmd} -- Ajuda para comando
+    \item \texttt{uv self update} -- Atualiza versão do uv
+    \item \texttt{uv self version} -- Verifica versão do uv
+\end{itemize}
+
+\vfill
+
+\hrule
+\vspace{0.2em}
+{\footnotesize
+\textsuperscript{1}A opção \texttt{--python 3.X} é transversal a quase tudo no uv.
+\textsuperscript{2}Modo editável (\texttt{-e}) evita reinstalação ao atualizar código.
+
+\textbf{Fonte:}  \href{https://docs.astral.sh/uv/}{docs.astral.sh/uv}
+}
+
+\end{multicols}
+
+\end{document}
